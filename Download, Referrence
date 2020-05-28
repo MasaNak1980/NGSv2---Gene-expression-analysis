@@ -18,3 +18,28 @@ ls
 # DOWNLOAD 
 get Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
 
+# END 
+exit
+
+#　アノテーションデータのダウンロード（STARを使う場合）
+#　Ensemblデータベースにアクセス・ダウンロード
+lftp ftp.ensembl.org/pub/release-95/gtf/homo_sapiens
+ls
+get Homo_sapiens.GRCh38.95.gtf.gz
+exit 
+
+# 圧縮ファイルを解凍
+# 一部のツールは圧縮ファイルを直接読み込めないので解凍しておく
+gunzip Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
+gunzip Homo_sapiens.GRCh38.95.gtf.gz
+
+# リファレンスシークエンスデータのダウンロード（kallistoを使う場合）
+# cDNAのリファレンスシークエンスデータを使用する
+# Ensemblデータベースにアクセス・ダウンロード
+lftp ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/cdna
+ls
+get Homo_sapiens.GRCh38.cdna.all.fa.gz
+exit 
+
+
+
