@@ -1,7 +1,26 @@
-# Runinfo Table と Accession List を上記ディレクトリにダウンロード
-fasterq-dumpを用いてRNA-seqデータをダウンロード（2020/02/12 タイポがありました。Twitterにてご報告くださった方ありがとうございました。）
-cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dupm --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
-cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dump --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
-ダウンロードしたファイルを一覧
-ls -lh *fastq.gz
+# RNA seq のデータ取得、変換　
 
+# dataを保存するDirectoryを作成
+
+$ mkdir /Volumes/xxxx/expression/seq 
+$ cd /Volumes/xxxx/expression/seq 
+
+# NBCI の画面が刷新されていて、 Runinfo Tableは存在しない。　　
+# Metadata という名前に変わっている。　ダウンロード　ダウンロードファイルに落ちるので、こぴぺ
+# Accestion listも一緒にダウンロード　まとめて、SRAfile をダウンロードできる。　
+
+# 以下のコマンドで自動的にダウンロード fasterq-dumpがしっかりとインストールされていないと、動かない。　
+
+cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dump --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
+
+＃ダウンロードを確認。
+
+ls -lh *fastq.gz
+ls -lh *fastq.gz | wc -l
+
+#　本来なら、14個あるはずなので、12個しかなかたたため、ダウンロードされていなかったものを、個別にダンロード　
+
+fasterq-dump --split-files SRR******* 
+
+# これで全て揃う
+　
