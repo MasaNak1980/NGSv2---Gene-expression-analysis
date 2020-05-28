@@ -1,0 +1,32 @@
+Python3.7 install
+Anacondaをインストール（Anacondaを使った経験があったので、minicodaではなく、anacondaを選択
+ここからインストール
+  https://www.anaconda.com/products/individual
+  
+terminal で
+　conda config --add channels defaults
+  conda config --add channels conda-forge
+  conda config --add channels bioconda
+を追加
+
+
+SRA Toolkit をcondaでインストール試みるも、
+
+conda install -c bioconda sra-tools
+
+でうまくいかない
+
+conda install -c bioconda/label/cf201901 sra-tools 
+
+これで成功。　
+
+fastqファイルを保存するディレクトリを作成
+mkdir ~/Documents/expression/seq
+cd ~/Documents/expression/seq
+Runinfo Table と Accession List を上記ディレクトリにダウンロード
+fasterq-dumpを用いてRNA-seqデータをダウンロード（2020/02/12 タイポがありました。Twitterにてご報告くださった方ありがとうございました。）
+cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dupm --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
+cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dump --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
+ダウンロードしたファイルを一覧
+ls -lh *fastq.gz
+
