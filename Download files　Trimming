@@ -1,0 +1,67 @@
+# RNA seq のデータ取得、変換　
+
+# dataを保存するDirectoryを作成
+
+$ mkdir /Volumes/xxxx/expression/seq 
+$ cd /Volumes/xxxx/expression/seq 
+
+# NBCI の画面が刷新されていて、 Runinfo Tableは存在しない。　　
+# Metadata という名前に変わっている。　ダウンロード　ダウンロードファイルに落ちるので、こぴぺ
+# Accestion listも一緒にダウンロード　まとめて、SRAfile をダウンロードできる。　
+
+# 以下のコマンドで自動的にダウンロード fasterq-dumpがしっかりとインストールされていないと、動かない。　
+
+cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dump --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
+
+＃ダウンロードを確認。
+
+ls -lh *fastq.gz
+ls -lh *fastq.gz | wc -l
+
+#　本来なら、14個あるはずなので、12個しかなかたたため、ダウンロードされていなかったものを、個別にダンロード　
+
+fasterq-dump --split-files SRR******* 
+
+# これで全て揃う
+
+# Fastqcで確認　#　fastqc --nogroup -o ./　データを入れるフォルダ名　解析するファイル名　
+fastqc --nogroup -o ./fastqc SRR1550989_1.fastq.gz
+
+# こっちでやると一気にできる　* ワイルドカードというらしい　
+fastqc --nogroup -o ./fastqc *.fastq.gz　
+
+# fastqc file をopen 
+open fastqc/SRR1550989_1_fastqc.html
+
+注意　
+リードがペアになっているデータを、間違えて single end データとして trim するとエラーは出ないが、
+ペアそれぞれに含まれるリードの数が一致しなくなってしまう。そうなると hisat2 などで処理した際にエラーが出る。 
+ペアになっているデータは、ペアになっていること自体で品質が悪いデータを除去できるので trim はしなくても大丈夫らしい。
+やりたいなら、trim_galore を使って2ペアーでやる　
+
+シングルリードの場合　fastx_toolkit でトリミング
+ $ fastq_quality_trimmer -Q 33 -t 20 -l 30 -i ERR207999.fastq -o ERR207999_trim.fastq
+ 
+trim_galoreを使うなら
+ディレクトリを作る
+$ mkdir trim
+$ trim_galore -q 30 ERR208001.fastq -o trim/ 
+ 
+ ペアリードなら両方のデータを指定し、--pairedのオプションをつけて実行する。
+ $ trim_galore --paired R1.fq R2.fq
+ trim_galoreでトリミング 出力は入力ファイル名_val_1.fq、入力ファイル名_val_2.fqとなる。
+
+  trim_galore -q 30 ERR208001.fastq -o trim/ 
+        
+ 
+ 
+Fastqcチェック
+fastqc --nogroup -o ./fastqc ERR207999_trim2.fastq 
+
+
+ 
+
+
+
+
+　
