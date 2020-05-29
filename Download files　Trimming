@@ -45,18 +45,23 @@ open fastqc/SRR1550989_1_fastqc.html
 trim_galoreを使うなら
 ディレクトリを作る
 $ mkdir trim
-$ trim_galore -q 30 ERR208001.fastq -o trim/ 
+$ trim_galore -q 20 ERR208001.fastq -o trim/ 
+＃まとめてやるなら
+$ trim_galore -q 20 *.fastq -o trim/ 
+
+Fastqcチェック
+fastqc --nogroup -o ./fastqc ERR207999_trim2.fastq 
+fastqc --nogroup -o ./fastqc *.fastq 
+
  
  ペアリードなら両方のデータを指定し、--pairedのオプションをつけて実行する。
  $ trim_galore --paired R1.fq R2.fq
  trim_galoreでトリミング 出力は入力ファイル名_val_1.fq、入力ファイル名_val_2.fqとなる。
 
-  trim_galore -q 30 ERR208001.fastq -o trim/ 
+
         
  
- 
-Fastqcチェック
-fastqc --nogroup -o ./fastqc ERR207999_trim2.fastq 
+
 
 
  
