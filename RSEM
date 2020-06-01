@@ -1,0 +1,43 @@
+source codeを ~/Documents/expression/tools にダウンロードしたのちファイルを解凍
+cd ~/Documents/expression/tools
+tar -zxvf RSEM-1.3.3.tar.gz
+
+インデックスの作成
+インデックス保存用のディレクトリを作成
+mkdir ~/Documents/expression/ref/RSEM_reference
+cd ~/Documents/expression/ref/RSEM_reference
+
+インデックス作成
+教科書では
+../tools/RSEM-1.3.1/bin/rsem-prepare-reference --num-threads 4 --gtf Homo_sapiens.GRCh38.95.gtf Homo_sapiens.GRCh38.dna.primary_assembly.fa RSEM_reference/RSEM_referenceアレンジ
+
+自分のアドレスにアレンジして
+ ~/Analysis/RSEM-1.3.3/bin/rsem-prepare-reference --num-threads 4 --gtf Homo_sapiens.GRCh38.95.gtf Homo_sapiens.GRCh38.dna.primary_assembly.fa RSEM_reference/RSEM_reference
+
+エラー
+zsh: no such file or directory: /Users/masawork2020/Analysis/RSEM-1.3.3/bin/rsem-prepare-reference
+
+which でrsem-prepare-reference がどこにあるか確認すると、　
+/Users/masawork2020/Analysis/RSEM-1.3.3/rsem-prepare-reference
+と出るので、1行目のbinを抜いてみる
+
+ % ~/Analysis/RSEM-1.3.3/rsem-prepare-reference --num-threads 4 --gtf Homo_sapiens.GRCh38.95.gtf Homo_sapiens.GRCh38.dna.primary_assembly.fa RSEM_reference/RSEM_reference
+ 
+ こんなエラーメッセージ
+ rsem-extract-reference-transcripts RSEM_reference/RSEM_reference 0 Homo_sapiens.GRCh38.95.gtf None 0 Homo_sapiens.GRCh38.dna.primary_assembly.fa
+Cannot open Homo_sapiens.GRCh38.95.gtf! It may not exist.
+"rsem-extract-reference-transcripts RSEM_reference/RSEM_reference 0 Homo_sapiens.GRCh38.95.gtf None 0 Homo_sapiens.GRCh38.dna.primary_assembly.fa" failed! Plase check if you provide correct parameters/options for the pipeline!
+
+ディレクトリが違っている可能性があり、と考えて、Homo_sapiens.GRCh38.95.gtfのあるディレクトリに移動して
+
+cd /Volumes/Biomasa/expression/ref
+~/Analysis/RSEM-1.3.3/rsem-prepare-reference --num-threads 4 --gtf Homo_sapiens.GRCh38.95.gtf Homo_sapiens.GRCh38.dna.primary_assembly.fa RSEM_reference/RSEM_reference
+
+成功！
+
+発現量定量
+STAR解析結果が保管されているディレクトリに移動
+cd ~/Documents/expression/STAR
+発現量定量
+for sample in `ls ../seq/*fastq.gz | xargs basename -s .fastq.gz | cut -f1 -d"_" | uniq`; do ~/Analysis/RSEM-1.3.3/rsem-calculate-expression --num-threads 4 --paired-end --bam ${sample}Aligned.toTranscriptome.out.bam ../ref/RSEM_reference/RSEM_reference ${sample}; done
+../ref/RSEM_reference/rsem_reference でRSEMのリファレンス用インデックスファイルを指定している。STARとは異なり、ディレクトリ名を入れるだけではなく、ディレクトリ内のファイル名（拡張子を除く）まで指定する必要がある。
