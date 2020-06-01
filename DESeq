@@ -1,0 +1,21 @@
+この処理もSTAR、RSEMの結果が保存されているディレクトリで実施する
+cd ~/Documents/expression/STAR
+
+RSEMで出力したファイルがどのサンプルに対応するのか、各サンプルはどの群（例：case、control）に属するのかを記述したファイルを準備する。RNA-seqデータをSRAからダウンロードした場合は、あわせてSraRunTable.txtをダウンロードしているので、それを使う。
+
+R # Rを用いる
+
+df <- read.csv("../seq/SraRunTable.txt.csv",stringsAsFactors=F)
+
+df2 <- data.frame(sample=df$Run, group=df$diseasestatus, path=paste0(df$Run, ".genes.results"))
+
+write.table(df2, "sample2condition.txt" ,row.names=F, quote=F, sep="\t")
+
+q()
+
+isoform-levelの解析を行う場合は上記コマンドのgenes.resultsをisoforms.resultsに書き換える
+
+Rの起動
+
+R
+以下R環境下での作業
