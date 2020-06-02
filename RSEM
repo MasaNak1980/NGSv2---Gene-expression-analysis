@@ -37,7 +37,7 @@ cd /Volumes/Biomasa/expression/ref
 
 発現量定量
 STAR解析結果が保管されているディレクトリに移動
-cd ~/Documents/expression/STAR
+cd /Volumes/Biomasa/expression/STAR
 発現量定量
 for sample in `ls ../seq/*fastq.gz | xargs basename -s .fastq.gz | cut -f1 -d"_" | uniq`; do ~/Analysis/RSEM-1.3.3/rsem-calculate-expression --num-threads 4 --paired-end --bam ${sample}Aligned.toTranscriptome.out.bam ../ref/RSEM_reference/RSEM_reference ${sample}; done
 ../ref/RSEM_reference/rsem_reference でRSEMのリファレンス用インデックスファイルを指定している。STARとは異なり、ディレクトリ名を入れるだけではなく、ディレクトリ内のファイル名（拡張子を除く）まで指定する必要がある。
