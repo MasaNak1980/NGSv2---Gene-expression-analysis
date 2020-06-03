@@ -3,7 +3,7 @@ cd ~/Documents/expression/STAR
 
 RSEMで出力したファイルがどのサンプルに対応するのか、各サンプルはどの群（例：case、control）に属するのかを記述したファイルを準備する。RNA-seqデータをSRAからダウンロードした場合は、あわせてSraRunTable.txtをダウンロードしているので、それを使う。
 
-R # Rを用いる
+R # Rstudioを用いる
 
 df <- read.csv("../seq/SraRunTable.txt.csv",stringsAsFactors=F)
 
