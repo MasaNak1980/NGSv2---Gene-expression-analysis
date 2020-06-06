@@ -29,5 +29,45 @@ pheatmap(assay(ntd)[select,], cluster_rows=FALSE, show_rownames=FALSE,
 エラーがでる         
 Error in check.length("fill") : 
   'gpar' element 'fill' must not be length 0
+色々調べると、ntd と　dfの名前が一致していないことが問題らしい。　
+
+rownames(df) <- colnames(ntd)　これを加えると上手くいきました。　
+
+
+select <- order(rowMeans(counts(dds_wt,normalized=TRUE)),
+                decreasing=TRUE)[1:40]
+df <- as.data.frame(colData(dds_wt)[,c("condition")])
+df
+
+rownames(df) <- colnames(ntd)
+
+pheatmap(assay(ntd)[select,], cluster_rows=FALSE, show_rownames=FALSE,
+         cluster_cols=FALSE, annotation_col=df)
          
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー         
+
+#Heatmap of the sample-to-sample distances
+sampleDists <- dist(t(assay(vsd)))
+
+library("RColorBrewer")
+sampleDistMatrix <- as.matrix(sampleDists)
+rownames(sampleDistMatrix) <- paste(vsd$condition, vsd$type, sep="-")
+colnames(sampleDistMatrix) <- NULL
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows=sampleDists,
+         clustering_distance_cols=sampleDists,
+         col=colors)
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+# Principal component plot of the samples
+plotPCA(vsd, intgroup=c("condition")) #条件を増やすなら、,"~~~",というふうに加えていく 
+
+pcaData <- plotPCA(vsd, intgroup=c("condition"), returnData=TRUE)
+percentVar <- round(100 * attr(pcaData, "percentVar"))
+ggplot(pcaData, aes(PC1, PC2, color=condition)) +
+  geom_point(size=3) +
+  xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+  ylab(paste0("PC2: ",percentVar[2],"% variance")) + 
+  coord_fixed()
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
          
