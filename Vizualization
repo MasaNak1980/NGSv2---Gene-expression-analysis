@@ -70,4 +70,35 @@ ggplot(pcaData, aes(PC1, PC2, color=condition)) +
   ylab(paste0("PC2: ",percentVar[2],"% variance")) + 
   coord_fixed()
 ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+Gene name を使ったheatmap 
+
+heatmap oredered by P value (https://www.biostars.org/p/179911/)
+# We can order our results table by the smallest p value:
+res_wtOrdered <- res_wt_naomit[order(res_wt_naomit$pvalue),]
+summary(res_wtOrdered)
+
+topgenes <- head(rownames(res_wtOrdered),20)
+mat <- assay(rld)[topgenes,] #rld
+mat <- mat - rowMeans(mat)
+mat
+
+df <- as.data.frame(colData(dds)[,c("condition")])
+df
+# Change the name of column 
+colnames(df) <- 'condition'
+
+#To change the name of genes
+head(res_wt_naomit_annot_sort, 20) #20個目のp値を調べた
+res_wt_naomit_annot_sort_20 <- res_wt_naomit_annot_sort %>% filter(padj <= 2.938955e-03)　#20個だけ厳選 Pvalue 少し大きする
+res_wt_naomit_annot_sort_20 
+
+#Gene name だけ抽出
+gene_name20 <- res_wt_naomit_annot_sort_20$ext_gene
+gene_name20　#20個あるか確認
+
+rownames(mat) <- gene_name20 # mat rowname 変更　gene_name にする
+
+rownames(df) <- colnames(mat) #rownames(data)  # data行の名前colnames(data2) data2の列の名前
+pheatmap(mat, show_colnames = F, annotation_col=df)
+
          
