@@ -7,9 +7,10 @@ tar -xzf 2.7.0a.tar.gz
 
 動作確認
 STAR-2.7.0a/bin/MacOSX_x86_64/STAR --version
-
+HPC STAR-2.7.6a/bin/Linux_x86_64/STAR --version
 使い方の表示
 STAR-2.7.0a/bin/MacOSX_x86_64/STAR --help
+HPC   STAR-2.7.6a/bin/Linux_x86_64/STAR --help
 
 インデックスの作成
 インデックスを出力するディレクトリを作成
