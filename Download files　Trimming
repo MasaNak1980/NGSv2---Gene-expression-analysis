@@ -58,8 +58,8 @@ fastqc --nogroup -o ./fastqc *.fastq
  $ trim_galore --paired R1.fq R2.fq
  trim_galoreでトリミング 出力は入力ファイル名_val_1.fq、入力ファイル名_val_2.fqとなる。
  ls
- 
-
+ gz.file では動かず　解凍する必要あり
+ gunzip *.fastq.gz
  $ trim_galore --paired SRR8492544_1.fastq SRR8492544_2.fastq -o trim/
         
  
