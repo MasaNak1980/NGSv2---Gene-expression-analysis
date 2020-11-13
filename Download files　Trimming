@@ -61,6 +61,7 @@ fastqc --nogroup -o ./fastqc *.fastq
  gz.file では動かず　解凍する必要あり
  gunzip *.fastq.gz
  $ trim_galore --paired SRR8492544_1.fastq SRR8492544_2.fastq -o trim/
+ $ trim_galore --paired *_1.fastq *_2.fastq -o trim/
         
  
 
