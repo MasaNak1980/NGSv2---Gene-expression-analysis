@@ -18,6 +18,9 @@ mkdir /Volumes/Biomasa/expression/ref/STAR_reference
 
 インデックス作成
 ~/Documents/Analysis/STAR-2.7.0a/bin/MacOSX_x86_64/STAR --runMode genomeGenerate --genomeDir /Volumes/Biomasa/expression/ref/STAR_reference --genomeFastaFiles /Volumes/Biomasa/expression/ref/Homo_sapiens.GRCh38.dna.primary_assembly.fa --sjdbGTFfile /Volumes/Biomasa/expression/ref/Homo_sapiens.GRCh38.95.gtf
+HPC
+/ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode genomeGenerate --genomeDir /home/mn575/project/data/rat1/ref/STAR_reference --runThreadN 8 --genomeFastaFiles /home/mn575/project/data/rat1/ref/Rattus_norvegicus.Rnor_6.0.dna.toplevel.fa --sjdbGTFfile /home/mn575/project/data/rat1/ref/Rattus_norvegicus.Rnor_6.0.95.gtf
+
 
 マッピング
 マッピングしたファイルを保管するディレクトリを作成
@@ -28,7 +31,8 @@ cd /Volumes/Biomasa/expression/STAR
 １サンプル分のマッピング（SRR *******には実在するSRR IDを記入する）
  ~/Analysis/STAR-2.7.0a/bin/MacOSX_x86_64/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesCommand gunzip -c --readFilesIn ../seq/SRR1551011_1.fastq.gz ../seq/SRR1551011_2.fastq.gz --outSAMtype BAM SortedByCoordinate --runThreadN 4 --outFileNamePrefix SRR1551011 --quantMode TranscriptomeSAM
 HPC
- /ysm-gpfs/apps/software/STAR/2.7.3a-foss-2018b/bin/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq/SRR8492533_1_val_1.fq ../seq/SRR8492533_2_val_2.fq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
+ /ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq/tSRR8492533_1.fastq ../seq/tSRR8492533_2.fastq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
+ /ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq2/SRR8492533_1.fq ../seq2/SRR8492533_2.fq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
 
 多サンプルのマッピング 今回は動かず　　　
 for sample in `ls ../seq/*fastq.gz | xargs basename | cut -f1 -d"_" | uniq`; do echo mapping:${sample}; ~/Analysis/STAR-2.7.0a/bin/MacOSX_x86_64/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesCommand gunzip -c --readFilesIn ../seq/${sample}_1.fastq.gz ../seq/${sample}_2.fastq.gz --outSAMtype BAM SortedByCoordinate --runThreadN 4 --quantMode TranscriptomeSAM --outFileNamePrefix ${sample};done; echo finished
