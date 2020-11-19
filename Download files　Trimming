@@ -12,7 +12,8 @@ $ cd /Volumes/xxxx/expression/seq
 # 以下のコマンドで自動的にダウンロード fasterq-dumpがしっかりとインストールされていないと、動かない。　
 
 cat SRR_Acc_List.txt | while read line; do cmd="fasterq-dump --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
-
+HPC
+cat SRR_Acc_List8.txt | while read line; do cmd="fasterq-dump --split-files ${line}; gzip ${line}*fastq"; eval ${cmd}; done
 ＃ダウンロードを確認。
 
 ls -lh *fastq.gz
