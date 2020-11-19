@@ -21,6 +21,7 @@ HPC mkdir /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/STAR_reference
 ~/Documents/Analysis/STAR-2.7.0a/bin/MacOSX_x86_64/STAR --runMode genomeGenerate --genomeDir /Volumes/Biomasa/expression/ref/STAR_reference --genomeFastaFiles /Volumes/Biomasa/expression/ref/Homo_sapiens.GRCh38.dna.primary_assembly.fa --sjdbGTFfile /Volumes/Biomasa/expression/ref/Homo_sapiens.GRCh38.95.gtf
 HPC
 /ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode genomeGenerate --genomeDir /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/STAR_reference --runThreadN 8 --genomeFastaFiles /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/Rattus_norvegicus.Rnor_6.0.dna.toplevel.fa --sjdbGTFfile /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/Rattus_norvegicus.Rnor_6.0.95.gtf
+/home/mn575/software/STAR-2.7.6a/bin/Linux_x86_64/STAR --runMode genomeGenerate --genomeDir /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/STAR_reference2.7.6a --runThreadN 8 --genomeFastaFiles /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/Rattus_norvegicus.Rnor_6.0.dna.toplevel.fa --sjdbGTFfile /gpfs/ysm/project/kocsis/mn575/data/rat1/ref/Rattus_norvegicus.Rnor_6.0.95.gtf
 
 
 マッピング
@@ -35,6 +36,10 @@ HPC
 /ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq2/SRR8492533_1.fastq ../seq2/SRR8492533_2.fastq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
 /ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq2/SRR8492533_1.fq ../seq2/SRR8492533_2.fq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
 /ysm-gpfs/apps/software/STAR/2.7.0f-foss-2018b/bin/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq2/SRR8492533_1.fastq ../seq2/SRR8492533_2.fastq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
+/home/mn575/software/STAR-2.7.6a/bin/Linux_x86_64/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesIn ../seq2/SRR8492533_1.fastq ../seq2/SRR8492533_2.fastq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
+
+
+
 多サンプルのマッピング 今回は動かず　　　
 for sample in `ls ../seq/*fastq.gz | xargs basename | cut -f1 -d"_" | uniq`; do echo mapping:${sample}; ~/Analysis/STAR-2.7.0a/bin/MacOSX_x86_64/STAR --runMode alignReads --genomeDir ../ref/STAR_reference --readFilesCommand gunzip -c --readFilesIn ../seq/${sample}_1.fastq.gz ../seq/${sample}_2.fastq.gz --outSAMtype BAM SortedByCoordinate --runThreadN 4 --quantMode TranscriptomeSAM --outFileNamePrefix ${sample};done; echo finished
 
