@@ -71,7 +71,11 @@ fastqc --nogroup -o ./fastqc *.fastq
  gunzip *.fastq.gz
  $ trim_galore --paired SRR8492544_1.fastq SRR8492544_2.fastq -o trim/
  $ trim_galore --paired *_1.fastq *_2.fastq -o trim/  永遠にループする　どうする
+ for sample in `ls *fastq | xargs basename -s .fastq | cut -f1 -d"_" | uniq`; do echo trimming:${sample}; trim_galore --paired ${sample}_1.fastq ${sample}_2.fastq -o trim/;done; echo finished 
+これで動いた
+ 
         
+ /home/mn575/software/STAR-2.7.6a/bin/Linux_x86_64/STAR --runMode alignReads --genomeDir ../ref/STAR_reference2.7.6a --readFilesIn ../seq/tSRR8492533_1.fastq ../seq/tSRR8492533_2.fastq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --outFileNamePrefix SRR8492533 --quantMode TranscriptomeSAM
  
 for sample in `ls ../seq/*fastq | xargs basename -s .fastq | cut -f1 -d"_" | uniq`; do echo mapping:${sample}; //home/mn575/software/STAR-2.7.6a/bin/Linux_x86_64/STAR --runMode alignReads --genomeDir ../ref/STAR_reference2.7.6a --readFilesIn ../seq/${sample}_1.fastq ../seq/${sample}_2.fastq --outSAMtype BAM SortedByCoordinate --runThreadN 8 --quantMode TranscriptomeSAM --outFileNamePrefix ${sample};done; echo finished 
 
