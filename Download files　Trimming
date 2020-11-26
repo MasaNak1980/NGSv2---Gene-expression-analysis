@@ -17,7 +17,7 @@ cat SRR_Acc_List8.txt | while read line; do cmd="fasterq-dump --split-files ${li
 gzにしなくてもいいなら
 cat SRR_Acc_List8.txt | while read line; do cmd="fasterq-dump --split-files ${line}; done
 
-cat SRR_Acc_List8.txt | while read line; do
+cat SRR_Acc_List-3.txt | while read line; do
  fasterq-dump $line -O ./ -e 8 -p
 done
 
